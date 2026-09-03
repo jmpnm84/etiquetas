@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Etiquetas pequenas</title>
+
+<!-- Configurações PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1f6feb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Etiquetas">
+
+<style>
+
+  /* =====================================================
+     CONFIGURAÇÃO A4
+     ===================================================== */
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    font-family: Calibri, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+
+
+  /* =====================================================
+     BARRA DE FERRAMENTAS (CENTRALIZADA)
+     ===================================================== */
+
+  .toolbar {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    height: 32px;
+  }
+
+  .logo-container img {
+    height: 100%;
+    width: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+
+  .toolbar button {
+    border: 0;
+    border-radius: 6px;
+    padding: 9px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+
+  #fillBtn {
+    background: #1f6feb;
+    color: white;
+  }
+
+
+  #printBtn {
+    background: #222;
+    color: white;
+  }
+
+
+  .toolbar button:hover {
+    opacity: 0.9;
+  }
+
+
+  /* =====================================================
+     PÁGINA A4
+     ===================================================== */
+
+  .page {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+    background: #fff;
+  }
+
+
+  /* =====================================================
+     CAMPOS DAS ETIQUETAS
+     ===================================================== */
+
+  .box {
+    position: absolute;
+    border: 0.25mm dotted rgba(0, 0, 0, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 8pt;
+    line-height: 1;
+    font-weight: 400;
+    color: #000;
+    white-space: nowrap;
+  }
+
+
+  /* =====================================================
+     JANELA DE PREENCHIMENTO
+     ===================================================== */
+
+  dialog {
+    border: 0;
+    border-radius: 10px;
+    padding: 0;
+    width: min(430px, calc(100vw - 32px));
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  }
+
+
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+
+  .form {
+    padding: 22px;
+  }
+
+
+  .form h2 {
+    margin: 0 0 16px;
+    font-size: 20px;
+  }
+
+
+  .field {
+    margin-bottom: 12px;
+  }
+
+
+  .field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+
+
+  .field input {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 16px;
+  }
+
+
+  .field input:focus {
+    outline: 2px solid #1f6feb;
+    outline-offset: 1px;
+  }
+
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+
+  .actions button {
+    padding: 9px 15px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    background: white;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    touch-action: manipulation;
+  }
+
+
+  .actions .apply {
+    border: 0;
+    background: #1f6feb;
+    color: white;
+    font-weight: 600;
+  }
+
+
+  /* =====================================================
+     VISUALIZAÇÃO NO ECRÃ
+     ===================================================== */
+
+  @media screen {
+    body {
+      background: #eee;
+    }
+
+    .page {
+      margin: 10mm auto;
+      box-shadow: 0 0 4mm rgba(0, 0, 0, 0.18);
+    }
+  }
+
+
+  /* =====================================================
+     IMPRESSÃO
+     ===================================================== */
+
+  @media print {
+    html,
+    body {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      background: white;
+    }
+
+    .toolbar {
+      display: none !important;
+    }
+
+    .page {
+      margin: 0;
+      box-shadow: none;
+    }
+  }
+
+</style>
+
+</head>
+
+
+<body>
+
+<!-- =====================================================
+     BARRA DE FERRAMENTAS E LOGÓTIPO (AO CENTRO)
+     ===================================================== -->
+
+<div class="toolbar">
+
+  <!-- Substitui 'logo.png' pelo link ou caminho do teu logótipo -->
+  <div class="logo-container">
+    <img src="logo.png" alt="Logótipo">
+  </div>
+
+  <button id="fillBtn" type="button">
+    Preencher
+  </button>
+
+  <button id="printBtn" type="button">
+    Imprimir
+  </button>
+
+</div>
+
+
+
+<!-- =====================================================
+     PÁGINA A4
+     ===================================================== -->
+
+<div class="page"></div>
+
+
+
+<!-- =====================================================
+     FORMULÁRIO
+     ===================================================== -->
+
+<dialog id="fillDialog">
+
+  <form class="form" method="dialog" id="fillForm">
+
+    <h2>
+      Preencher etiquetas
+    </h2>
+
+    <!-- DIA -->
+    <div class="field">
+      <label for="dia">Dia</label>
+      <input id="dia" name="dia" type="text" inputmode="numeric" maxlength="2" placeholder="Ex.: 31" required>
+    </div>
+
+    <!-- MÊS -->
+    <div class="field">
+      <label for="mes">Mês</label>
+      <input id="mes" name="mes" type="text" inputmode="numeric" maxlength="2" placeholder="Ex.: 08" required>
+    </div>
+
+    <!-- ANO -->
+    <div class="field">
+      <label for="ano">Ano</label>
+      <input id="ano" name="ano" type="text" inputmode="numeric" maxlength="4" placeholder="Ex.: 2026" required>
+    </div>
+
+    <!-- NÚMERO COLABORADOR -->
+    <div class="field">
+      <label for="colaborador">Número do colaborador</label>
+      <input id="colaborador" name="colaborador" type="text" placeholder="Ex.: 06/59" required>
+    </div>
+
+    <!-- REFERÊNCIA -->
+    <div class="field">
+      <label for="referencia">Referência</label>
+      <input id="referencia" name="referencia" type="text" placeholder="Ex.: 501" required>
+    </div>
+
+    <!-- BOTÕES DO FORMULÁRIO -->
+    <div class="actions">
+      <button type="button" id="cancelBtn">Cancelar</button>
+      <button type="submit" class="apply">Aplicar</button>
+    </div>
+
+  </form>
+
+</dialog>
+
+
+
+<script>
+
+/* =========================================================
+   REGISTO DO SERVICE WORKER (PWA)
+   ========================================================= */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js")
+      .then(() => console.log("Service Worker registado com sucesso!"))
+      .catch((err) => console.log("Erro ao registar Service Worker:", err));
+  });
+}
+
+
+/* =========================================================
+   CONFIGURAÇÃO DA GRELHA
+   ========================================================= */
+
+const originX = 9.31;
+const originY = 10.90;
+
+const xs = [
+  0.0,
+  52.8585,
+  105.7170,
+  158.6739
+];
+
+const ys = [
+  0.0,
+  24.791,
+  49.219,
+  74.009,
+  98.213,
+  123.004,
+  147.432,
+  172.223,
+  196.427,
+  221.217,
+  245.645,
+  270.436
+];
+
+const fields = {
+  dia: { x: 0.0, y: 0.0, width: 4.81, height: 3.79 },
+  mes: { x: 7.1856, y: 0.0, width: 4.81, height: 3.79 },
+  ano: { x: 13.4853, y: 0.0, width: 8.6621, height: 3.79 },
+  colaborador: { x: 28.6926, y: 0.0, width: 8.6629, height: 3.79 },
+  referencia: { x: 2.4608, y: 5.8075, width: 8.6621, height: 3.79 }
+};
+
+function getCurrentDate() {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = String(today.getFullYear());
+
+  return { dia: day, mes: month, ano: year };
+}
+
+const currentDate = getCurrentDate();
+
+const values = {
+  dia: currentDate.dia,
+  mes: currentDate.mes,
+  ano: currentDate.ano,
+  colaborador: "",
+  referencia: ""
+};
+
+const page = document.querySelector(".page");
+
+for (let row = 0; row < ys.length; row++) {
+  for (let col = 0; col < xs.length; col++) {
+    const labelX = originX + xs[col];
+    const labelY = originY + ys[row];
+
+    Object.entries(fields).forEach(([fieldName, field]) => {
+      if (fieldName === "dia" && row === 4 && col === 1) {
+        return;
+      }
+
+      const element = document.createElement("div");
+      element.className = "box";
+      element.dataset.field = fieldName;
+
+      element.style.left = (labelX + field.x) + "mm";
+      element.style.top = (labelY + field.y) + "mm";
+      element.style.width = field.width + "mm";
+      element.style.height = field.height + "mm";
+
+      element.textContent = values[fieldName];
+      page.appendChild(element);
+    });
+  }
+}
+
+const dialog = document.getElementById("fillDialog");
+const form = document.getElementById("fillForm");
+
+document.getElementById("fillBtn").addEventListener("click", function () {
+  const date = getCurrentDate();
+  document.getElementById("dia").value = date.dia;
+  document.getElementById("mes").value = date.mes;
+  document.getElementById("ano").value = date.ano;
+
+  dialog.showModal();
+  document.getElementById("colaborador").focus();
+});
+
+document.getElementById("cancelBtn").addEventListener("click", function () {
+  dialog.close();
+});
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const newValues = {
+    dia: document.getElementById("dia").value.trim(),
+    mes: document.getElementById("mes").value.trim(),
+    ano: document.getElementById("ano").value.trim(),
+    colaborador: document.getElementById("colaborador"].value.trim(),
+    referencia: document.getElementById("referencia").value.trim()
+  };
+
+  Object.assign(values, newValues);
+
+  document.querySelectorAll(".box[data-field]").forEach(function (box) {
+    const field = box.dataset.field;
+    if (Object.prototype.hasOwnProperty.call(values, field)) {
+      box.textContent = values[field];
+    }
+  });
+
+  dialog.close();
+});
+
+document.getElementById("printBtn").addEventListener("click", function () {
+  window.print();
+});
+
+</script>
+
+</body>
+</html>
