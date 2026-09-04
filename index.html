@@ -110,6 +110,20 @@
     touch-action: manipulation;
   }
 
+  #helpBtn {
+    background: #e2e8f0;
+    color: #1e293b;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border-radius: 50%;
+    border: 1px solid #cbd5e1;
+  }
+
   #fillBtn {
     background: #1f6feb;
     color: white;
@@ -183,7 +197,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 65px 10px 75px 10px; /* Espaço para barras superior e inferior */
+    padding: 65px 10px 75px 10px;
     width: 100%;
     overflow: auto;
   }
@@ -225,14 +239,14 @@
 
 
   /* =====================================================
-     JANELA DE PREENCHIMENTO
+     JANELAS MODAIS (DIALOG)
      ===================================================== */
 
   dialog {
     border: 0;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 0;
-    width: min(430px, calc(100vw - 32px));
+    width: min(480px, calc(100vw - 32px));
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
   }
 
@@ -299,6 +313,79 @@
   }
 
 
+  /* Estilos específicos para a janela de Ajuda */
+  .help-content {
+    padding: 24px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .help-content h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #1e293b;
+    margin-bottom: 16px;
+  }
+
+  .help-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .help-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    background: #1f6feb;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-text {
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.5;
+  }
+
+  .warning-box {
+    background: #fffbeb;
+    border: 1px solid #f59e0b;
+    border-left: 4px solid #d97706;
+    padding: 12px 14px;
+    border-radius: 6px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 16px;
+  }
+
+  .warning-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .warning-text {
+    font-size: 13px;
+    color: #b45309;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+
   /* =====================================================
      IMPRESSÃO
      ===================================================== */
@@ -361,6 +448,7 @@
   </div>
 
   <div class="toolbar-right">
+    <button id="helpBtn" type="button" title="Ajuda">?</button>
     <button id="fillBtn" type="button" data-i18n="fill">Preencher</button>
     <button id="printBtn" type="button" data-i18n="print">Imprimir</button>
   </div>
@@ -394,7 +482,48 @@
 
 
 <!-- =====================================================
-     FORMULÁRIO
+     JANELA DE AJUDA / INSTRUÇÕES
+     ===================================================== -->
+
+<dialog id="helpDialog">
+  <div class="help-content">
+    <h2 data-i18n="helpTitle">Como utilizar a aplicação</h2>
+    
+    <div class="help-steps">
+      <div class="help-step">
+        <div class="step-num">1</div>
+        <div class="step-text" data-i18n="helpStep1">Escolha o seu idioma preferido no seletor com bandeiras na barra superior.</div>
+      </div>
+      <div class="help-step">
+        <div class="step-num">2</div>
+        <div class="step-text" data-i18n="helpStep2">Clique no botão "Preencher" para abrir o formulário com a data atual e os campos necessários (dia, mês, ano, colaborador e referência).</div>
+      </div>
+      <div class="help-step">
+        <div class="step-num">3</div>
+        <div class="step-text" data-i18n="helpStep3">Insira os dados desejados e clique em "Aplicar" para atualizar automaticamente todas as etiquetas na folha.</div>
+      </div>
+      <div class="help-step">
+        <div class="step-num">4</div>
+        <div class="step-text" data-i18n="helpStep4">Clique em "Imprimir" para enviar o documento diretamente para a sua impressora.</div>
+      </div>
+    </div>
+
+    <!-- AVISO DE IMPRESSÃO -->
+    <div class="warning-box">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text" data-i18n="helpWarning">Atenção à posição em que coloca a folha de etiquetas na sua impressora (orientação e face correta), pois esta configuração pode variar consoante o modelo de cada impressora.</div>
+    </div>
+
+    <div class="actions">
+      <button type="button" id="closeHelpBtn" class="apply" data-i18n="close">Fechar</button>
+    </div>
+  </div>
+</dialog>
+
+
+
+<!-- =====================================================
+     FORMULÁRIO DE PREENCHIMENTO
      ===================================================== -->
 
 <dialog id="fillDialog">
@@ -463,7 +592,6 @@ function updateZoom() {
 
 function autoFit() {
   const containerWidth = window.innerWidth - 20;
-  // Largura de A4 em pixéis a 96 DPI (~794px)
   const a4WidthPx = 794; 
   if (containerWidth < a4WidthPx) {
     currentScale = containerWidth / a4WidthPx;
@@ -474,9 +602,6 @@ function autoFit() {
 }
 
 window.addEventListener("load", autoFit);
-window.addEventListener("resize", () => {
-  // Ajusta automaticamente apenas se o utilizador não tiver dado zoom manual excessivo
-});
 
 document.getElementById("zoomIn").addEventListener("click", () => {
   currentScale = Math.min(currentScale + 0.15, 2.5);
@@ -508,11 +633,18 @@ const translations = {
     labelRef: "Referência",
     cancel: "Cancelar",
     apply: "Aplicar",
+    close: "Fechar",
     placeholderDay: "Ex.: 31",
     placeholderMonth: "Ex.: 08",
     placeholderYear: "Ex.: 2026",
     placeholderCollab: "Ex.: 06/59",
-    placeholderRef: "Ex.: 501"
+    placeholderRef: "Ex.: 501",
+    helpTitle: "Como utilizar a aplicação",
+    helpStep1: "Escolha o seu idioma preferido no seletor com bandeiras na barra superior.",
+    helpStep2: "Clique no botão 'Preencher' para abrir o formulário com a data atual e os campos necessários (dia, mês, ano, colaborador e referência).",
+    helpStep3: "Insira os dados desejados e clique em 'Aplicar' para atualizar automaticamente todas as etiquetas na folha.",
+    helpStep4: "Clique em 'Imprimir' para enviar o documento diretamente para a sua impressora.",
+    helpWarning: "Atenção à posição em que coloca a folha de etiquetas na sua impressora (orientação e face correta), pois esta configuração pode variar consoante o modelo de cada impressora."
   },
   es: {
     fill: "Rellenar",
@@ -525,11 +657,18 @@ const translations = {
     labelRef: "Referencia",
     cancel: "Cancelar",
     apply: "Aplicar",
+    close: "Cerrar",
     placeholderDay: "Ej.: 31",
     placeholderMonth: "Ej.: 08",
     placeholderYear: "Ej.: 2026",
     placeholderCollab: "Ej.: 06/59",
-    placeholderRef: "Ej.: 501"
+    placeholderRef: "Ej.: 501",
+    helpTitle: "Cómo utilizar la aplicación",
+    helpStep1: "Elija su idioma preferido en el selector con banderas en la barra superior.",
+    helpStep2: "Haga clic en el botón 'Rellenar' para abrir el formulario con la fecha actual y los campos necesarios (día, mes, año, colaborador y referencia).",
+    helpStep3: "Introduzca los datos deseados y haga clic en 'Aplicar' para actualizar automáticamente todas las etiquetas de la hoja.",
+    helpStep4: "Haga clic en 'Imprimir' para enviar el documento directamente a su impresora.",
+    helpWarning: "Atención a la posición en la que coloca la hoja de etiquetas en su impresora (orientación y cara correcta), ya que esta configuración puede variar según el modelo de cada impresora."
   },
   en: {
     fill: "Fill",
@@ -542,11 +681,18 @@ const translations = {
     labelRef: "Reference",
     cancel: "Cancel",
     apply: "Apply",
+    close: "Close",
     placeholderDay: "Ex.: 31",
     placeholderMonth: "Ex.: 08",
     placeholderYear: "Ex.: 2026",
     placeholderCollab: "Ex.: 06/59",
-    placeholderRef: "Ex.: 501"
+    placeholderRef: "Ex.: 501",
+    helpTitle: "How to use the app",
+    helpStep1: "Choose your preferred language from the flag selector in the top bar.",
+    helpStep2: "Click the 'Fill' button to open the form with the current date and required fields (day, month, year, collaborator, and reference).",
+    helpStep3: "Enter the desired data and click 'Apply' to automatically update all labels on the sheet.",
+    helpStep4: "Click 'Print' to send the document directly to your printer.",
+    helpWarning: "Pay attention to the position in which you place the label sheet in your printer (orientation and correct side), as this setup may vary depending on each printer model."
   },
   fr: {
     fill: "Remplir",
@@ -559,11 +705,18 @@ const translations = {
     labelRef: "Référence",
     cancel: "Annuler",
     apply: "Appliquer",
+    close: "Fermer",
     placeholderDay: "Ex. : 31",
     placeholderMonth: "Ex. : 08",
     placeholderYear: "Ex. : 2026",
     placeholderCollab: "Ex. : 06/59",
-    placeholderRef: "Ex. : 501"
+    placeholderRef: "Ex. : 501",
+    helpTitle: "Comment utiliser l'application",
+    helpStep1: "Choisissez votre langue préférée dans le sélecteur avec drapeaux dans la barre supérieure.",
+    helpStep2: "Cliquez sur le bouton 'Remplir' pour ouvrir le formulaire avec la date actuelle et les champs requis (jour, mois, année, collaborateur et référence).",
+    helpStep3: "Entrez les données souhaitées et cliquez sur 'Appliquer' pour mettre à jour automatiquement toutes les étiquettes sur la feuille.",
+    helpStep4: "Cliquez sur 'Imprimer' pour envoyer le document directement à votre imprimante.",
+    helpWarning: "Faites attention à la position dans laquelle vous placez la feuille d'étiquettes dans votre imprimante (orientation et bon côté), car cette configuration peut varier selon le modèle de chaque imprimante."
   }
 };
 
@@ -588,6 +741,20 @@ function setLanguage(lang) {
 
 document.getElementById("langSelect").addEventListener("change", (e) => {
   setLanguage(e.target.value);
+});
+
+
+/* =========================================================
+   CONTROLO DA JANELA DE AJUDA
+   ========================================================= */
+const helpDialog = document.getElementById("helpDialog");
+
+document.getElementById("helpBtn").addEventListener("click", () => {
+  helpDialog.showModal();
+});
+
+document.getElementById("closeHelpBtn").addEventListener("click", () => {
+  helpDialog.close();
 });
 
 
