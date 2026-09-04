@@ -2,7 +2,7 @@
 <html lang="pt-PT">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <title>Etiquetas pequenas</title>
 
@@ -32,43 +32,45 @@
   body {
     margin: 0;
     padding: 0;
-    width: 210mm;
-    min-height: 297mm;
-    background: #fff;
+    width: 100%;
+    min-height: 100vh;
+    background: #e2e8f0;
     font-family: Calibri, Arial, sans-serif;
     -webkit-text-size-adjust: 100%;
   }
 
 
   /* =====================================================
-     BARRA DE FERRAMENTAS (SEMPRE VISÍVEL / RESPONSIVA)
+     BARRA DE FERRAMENTAS SUPERIOR (SEMPRE VISÍVEL)
      ===================================================== */
 
   .toolbar {
     position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 8px;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(6px);
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
-    max-width: 96vw;
-    overflow-x: auto;
-    white-space: nowrap;
+    border-bottom: 1px solid #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .toolbar-left, .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .logo-container {
     display: flex;
     align-items: center;
     height: 28px;
-    flex-shrink: 0;
   }
 
   .logo-container img {
@@ -81,12 +83,10 @@
   .lang-select-container {
     display: flex;
     align-items: center;
-    gap: 4px;
-    background: #f4f6f8;
-    padding: 3px 6px;
+    background: #f1f5f9;
+    padding: 4px 6px;
     border-radius: 6px;
-    border: 1px solid #ddd;
-    flex-shrink: 0;
+    border: 1px solid #cbd5e1;
   }
 
   .lang-select-container select {
@@ -108,7 +108,6 @@
     font-weight: 600;
     cursor: pointer;
     touch-action: manipulation;
-    flex-shrink: 0;
   }
 
   #fillBtn {
@@ -127,8 +126,72 @@
 
 
   /* =====================================================
-     PÁGINA A4
+     CONTROLO DE ZOOM FLUTUANTE (INFERIOR)
      ===================================================== */
+
+  .zoom-bar {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(6px);
+    padding: 6px 12px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .zoom-bar button {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .zoom-bar button:active {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  #zoomReset {
+    font-size: 11px;
+    width: auto;
+    padding: 0 8px;
+    border-radius: 4px;
+  }
+
+
+  /* =====================================================
+     CONTENTOR DE ZOOM E PÁGINA A4 RESPONSIVA
+     ===================================================== */
+
+  .workspace {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 65px 10px 75px 10px; /* Espaço para barras superior e inferior */
+    width: 100%;
+    overflow: auto;
+  }
+
+  .page-scaler {
+    transform-origin: top center;
+    transition: transform 0.1s ease-out;
+  }
 
   .page {
     position: relative;
@@ -136,6 +199,7 @@
     height: 297mm;
     overflow: hidden;
     background: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   }
 
 
@@ -236,24 +300,6 @@
 
 
   /* =====================================================
-     VISUALIZAÇÃO NO ECRÃ
-     ===================================================== */
-
-  @media screen {
-    body {
-      background: #eee;
-      /* Espaço superior para a barra fixa não sobrepor a página em ecrãs pequenos */
-      padding-top: 55px;
-    }
-
-    .page {
-      margin: 10mm auto;
-      box-shadow: 0 0 4mm rgba(0, 0, 0, 0.18);
-    }
-  }
-
-
-  /* =====================================================
      IMPRESSÃO
      ===================================================== */
 
@@ -264,16 +310,25 @@
       height: 297mm;
       margin: 0;
       background: white;
-      padding-top: 0 !important;
     }
 
-    .toolbar {
+    .toolbar,
+    .zoom-bar {
       display: none !important;
     }
 
+    .workspace {
+      padding: 0;
+      overflow: visible;
+    }
+
+    .page-scaler {
+      transform: none !important;
+    }
+
     .page {
-      margin: 0;
       box-shadow: none;
+      margin: 0;
     }
   }
 
@@ -285,42 +340,56 @@
 <body>
 
 <!-- =====================================================
-     BARRA DE FERRAMENTAS E LOGÓTIPO (AO CENTRO)
+     BARRA DE FERRAMENTAS SUPERIOR
      ===================================================== -->
 
 <div class="toolbar">
+  <div class="toolbar-left">
+    <div class="logo-container">
+      <img src="https://github.com/user-attachments/assets/e4e16378-571e-444d-94ef-916a51a81675" alt="Logótipo">
+    </div>
 
-  <div class="logo-container">
-    <img src="https://github.com/user-attachments/assets/e4e16378-571e-444d-94ef-916a51a81675" alt="Logótipo">
+    <!-- SELETOR DE IDIOMA COM BANDEIRAS -->
+    <div class="lang-select-container">
+      <select id="langSelect" aria-label="Idioma">
+        <option value="pt">🇵🇹 PT</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="fr">🇫🇷 FR</option>
+      </select>
+    </div>
   </div>
 
-  <!-- SELETOR DE IDIOMA COM BANDEIRAS -->
-  <div class="lang-select-container">
-    <select id="langSelect" aria-label="Idioma">
-      <option value="pt">🇵🇹 PT</option>
-      <option value="es">🇪🇸 ES</option>
-      <option value="en">🇬🇧 EN</option>
-      <option value="fr">🇫🇷 FR</option>
-    </select>
+  <div class="toolbar-right">
+    <button id="fillBtn" type="button" data-i18n="fill">Preencher</button>
+    <button id="printBtn" type="button" data-i18n="print">Imprimir</button>
   </div>
-
-  <button id="fillBtn" type="button" data-i18n="fill">
-    Preencher
-  </button>
-
-  <button id="printBtn" type="button" data-i18n="print">
-    Imprimir
-  </button>
-
 </div>
 
 
 
 <!-- =====================================================
-     PÁGINA A4
+     ÁREA DE TRABALHO E PÁGINA A4 COM ZOOM AUTOMÁTICO
      ===================================================== -->
 
-<div class="page"></div>
+<div class="workspace">
+  <div class="page-scaler" id="pageScaler">
+    <div class="page"></div>
+  </div>
+</div>
+
+
+
+<!-- =====================================================
+     BARRA DE ZOOM FLUTUANTE (INFERIOR)
+     ===================================================== -->
+
+<div class="zoom-bar">
+  <button id="zoomOut" title="Reduzir">-</button>
+  <span id="zoomLevel">100%</span>
+  <button id="zoomIn" title="Ampliar">+</button>
+  <button id="zoomReset" title="Ajustar ao ecrã">Ajustar</button>
+</div>
 
 
 
@@ -379,6 +448,50 @@
 
 
 <script>
+
+/* =========================================================
+   GESTÃO DE ZOOM AUTOMÁTICO E MANUAL
+   ========================================================= */
+let currentScale = 1;
+const pageScaler = document.getElementById("pageScaler");
+const zoomLevelText = document.getElementById("zoomLevel");
+
+function updateZoom() {
+  pageScaler.style.transform = `scale(${currentScale})`;
+  zoomLevelText.textContent = Math.round(currentScale * 100) + "%";
+}
+
+function autoFit() {
+  const containerWidth = window.innerWidth - 20;
+  // Largura de A4 em pixéis a 96 DPI (~794px)
+  const a4WidthPx = 794; 
+  if (containerWidth < a4WidthPx) {
+    currentScale = containerWidth / a4WidthPx;
+  } else {
+    currentScale = 1;
+  }
+  updateZoom();
+}
+
+window.addEventListener("load", autoFit);
+window.addEventListener("resize", () => {
+  // Ajusta automaticamente apenas se o utilizador não tiver dado zoom manual excessivo
+});
+
+document.getElementById("zoomIn").addEventListener("click", () => {
+  currentScale = Math.min(currentScale + 0.15, 2.5);
+  updateZoom();
+});
+
+document.getElementById("zoomOut").addEventListener("click", () => {
+  currentScale = Math.max(currentScale - 0.15, 0.4);
+  updateZoom();
+});
+
+document.getElementById("zoomReset").addEventListener("click", () => {
+  autoFit();
+});
+
 
 /* =========================================================
    TRADUÇÕES (IDIOMAS)
