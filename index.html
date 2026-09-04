@@ -73,6 +73,25 @@
     object-fit: contain;
   }
 
+  .lang-select-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f4f6f8;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+  }
+
+  .lang-select-container select {
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+  }
 
   .toolbar button {
     border: 0;
@@ -85,18 +104,15 @@
     touch-action: manipulation;
   }
 
-
   #fillBtn {
     background: #1f6feb;
     color: white;
   }
 
-
   #printBtn {
     background: #222;
     color: white;
   }
-
 
   .toolbar button:hover {
     opacity: 0.9;
@@ -149,34 +165,28 @@
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
   }
 
-
   dialog::backdrop {
     background: rgba(0, 0, 0, 0.4);
   }
 
-
   .form {
     padding: 22px;
   }
-
 
   .form h2 {
     margin: 0 0 16px;
     font-size: 20px;
   }
 
-
   .field {
     margin-bottom: 12px;
   }
-
 
   .field label {
     display: block;
     margin-bottom: 5px;
     font-weight: 600;
   }
-
 
   .field input {
     width: 100%;
@@ -187,12 +197,10 @@
     font-size: 16px;
   }
 
-
   .field input:focus {
     outline: 2px solid #1f6feb;
     outline-offset: 1px;
   }
-
 
   .actions {
     display: flex;
@@ -200,7 +208,6 @@
     gap: 8px;
     margin-top: 18px;
   }
-
 
   .actions button {
     padding: 9px 15px;
@@ -212,7 +219,6 @@
     font-size: 14px;
     touch-action: manipulation;
   }
-
 
   .actions .apply {
     border: 0;
@@ -278,11 +284,21 @@
     <img src="https://github.com/user-attachments/assets/e4e16378-571e-444d-94ef-916a51a81675" alt="Logótipo">
   </div>
 
-  <button id="fillBtn" type="button">
+  <!-- SELETOR DE IDIOMA COM BANDEIRAS -->
+  <div class="lang-select-container">
+    <select id="langSelect" aria-label="Idioma">
+      <option value="pt">🇵🇹 PT</option>
+      <option value="es">🇪🇸 ES</option>
+      <option value="en">🇬🇧 EN</option>
+      <option value="fr">🇫🇷 FR</option>
+    </select>
+  </div>
+
+  <button id="fillBtn" type="button" data-i18n="fill">
     Preencher
   </button>
 
-  <button id="printBtn" type="button">
+  <button id="printBtn" type="button" data-i18n="print">
     Imprimir
   </button>
 
@@ -306,44 +322,44 @@
 
   <form class="form" method="dialog" id="fillForm">
 
-    <h2>
+    <h2 data-i18n="formTitle">
       Preencher etiquetas
     </h2>
 
     <!-- DIA -->
     <div class="field">
-      <label for="dia">Dia</label>
+      <label for="dia" data-i18n="labelDay">Dia</label>
       <input id="dia" name="dia" type="text" inputmode="numeric" maxlength="2" placeholder="Ex.: 31" required>
     </div>
 
     <!-- MÊS -->
     <div class="field">
-      <label for="mes">Mês</label>
+      <label for="mes" data-i18n="labelMonth">Mês</label>
       <input id="mes" name="mes" type="text" inputmode="numeric" maxlength="2" placeholder="Ex.: 08" required>
     </div>
 
     <!-- ANO -->
     <div class="field">
-      <label for="ano">Ano</label>
+      <label for="ano" data-i18n="labelYear">Ano</label>
       <input id="ano" name="ano" type="text" inputmode="numeric" maxlength="4" placeholder="Ex.: 2026" required>
     </div>
 
     <!-- NÚMERO COLABORADOR -->
     <div class="field">
-      <label for="colaborador">Número do colaborador</label>
+      <label for="colaborador" data-i18n="labelCollab">Número do colaborador</label>
       <input id="colaborador" name="colaborador" type="text" placeholder="Ex.: 06/59" required>
     </div>
 
     <!-- REFERÊNCIA -->
     <div class="field">
-      <label for="referencia">Referência</label>
+      <label for="referencia" data-i18n="labelRef">Referência</label>
       <input id="referencia" name="referencia" type="text" placeholder="Ex.: 501" required>
     </div>
 
     <!-- BOTÕES DO FORMULÁRIO -->
     <div class="actions">
-      <button type="button" id="cancelBtn">Cancelar</button>
-      <button type="submit" class="apply">Aplicar</button>
+      <button type="button" id="cancelBtn" data-i18n="cancel">Cancelar</button>
+      <button type="submit" class="apply" data-i18n="apply">Aplicar</button>
     </div>
 
   </form>
@@ -353,6 +369,104 @@
 
 
 <script>
+
+/* =========================================================
+   TRADUÇÕES (IDIOMAS)
+   ========================================================= */
+const translations = {
+  pt: {
+    fill: "Preencher",
+    print: "Imprimir",
+    formTitle: "Preencher etiquetas",
+    labelDay: "Dia",
+    labelMonth: "Mês",
+    labelYear: "Ano",
+    labelCollab: "Número do colaborador",
+    labelRef: "Referência",
+    cancel: "Cancelar",
+    apply: "Aplicar",
+    placeholderDay: "Ex.: 31",
+    placeholderMonth: "Ex.: 08",
+    placeholderYear: "Ex.: 2026",
+    placeholderCollab: "Ex.: 06/59",
+    placeholderRef: "Ex.: 501"
+  },
+  es: {
+    fill: "Rellenar",
+    print: "Imprimir",
+    formTitle: "Rellenar etiquetas",
+    labelDay: "Día",
+    labelMonth: "Mes",
+    labelYear: "Año",
+    labelCollab: "Número de colaborador",
+    labelRef: "Referencia",
+    cancel: "Cancelar",
+    apply: "Aplicar",
+    placeholderDay: "Ej.: 31",
+    placeholderMonth: "Ej.: 08",
+    placeholderYear: "Ej.: 2026",
+    placeholderCollab: "Ej.: 06/59",
+    placeholderRef: "Ej.: 501"
+  },
+  en: {
+    fill: "Fill",
+    print: "Print",
+    formTitle: "Fill labels",
+    labelDay: "Day",
+    labelMonth: "Month",
+    labelYear: "Year",
+    labelCollab: "Collaborator number",
+    labelRef: "Reference",
+    cancel: "Cancel",
+    apply: "Apply",
+    placeholderDay: "Ex.: 31",
+    placeholderMonth: "Ex.: 08",
+    placeholderYear: "Ex.: 2026",
+    placeholderCollab: "Ex.: 06/59",
+    placeholderRef: "Ex.: 501"
+  },
+  fr: {
+    fill: "Remplir",
+    print: "Imprimer",
+    formTitle: "Remplir les étiquettes",
+    labelDay: "Jour",
+    labelMonth: "Mois",
+    labelYear: "Année",
+    labelCollab: "Numéro de collaborateur",
+    labelRef: "Référence",
+    cancel: "Annuler",
+    apply: "Appliquer",
+    placeholderDay: "Ex. : 31",
+    placeholderMonth: "Ex. : 08",
+    placeholderYear: "Ex. : 2026",
+    placeholderCollab: "Ex. : 06/59",
+    placeholderRef: "Ex. : 501"
+  }
+};
+
+function setLanguage(lang) {
+  const t = translations[lang] || translations.pt;
+  
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (t[key]) {
+      el.textContent = t[key];
+    }
+  });
+
+  document.getElementById("dia").placeholder = t.placeholderDay;
+  document.getElementById("mes").placeholder = t.placeholderMonth;
+  document.getElementById("ano").placeholder = t.placeholderYear;
+  document.getElementById("colaborador").placeholder = t.placeholderCollab;
+  document.getElementById("referencia").placeholder = t.placeholderRef;
+
+  document.documentElement.lang = lang === 'pt' ? 'pt-PT' : lang;
+}
+
+document.getElementById("langSelect").addEventListener("change", (e) => {
+  setLanguage(e.target.value);
+});
+
 
 /* =========================================================
    REGISTO DO SERVICE WORKER (PWA)
