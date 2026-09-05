@@ -142,6 +142,14 @@
     opacity: 0.9;
   }
 
+  .app-version {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    margin-left: 2px;
+    white-space: nowrap;
+  }
+
 
   /* =====================================================
      CONTROLO DE ZOOM FLUTUANTE (INFERIOR)
@@ -449,7 +457,7 @@
   <div class="toolbar-right">
     <button id="helpBtn" type="button" title="Ajuda">?</button>
     
-    <!-- SELETOR DE IDIOMA COM BANDEIRAS (Colocado à direita do botão de interrogação) -->
+    <!-- SELETOR DE IDIOMA COM BANDEIRAS -->
     <div class="lang-select-container">
       <select id="langSelect" aria-label="Idioma">
         <option value="pt">🇵🇹 PT</option>
@@ -461,6 +469,9 @@
 
     <button id="fillBtn" type="button" data-i18n="fill">Preencher</button>
     <button id="printBtn" type="button" data-i18n="print">Imprimir</button>
+    
+    <!-- VERSÃO DA APLICAÇÃO -->
+    <span class="app-version">v1.0.0</span>
   </div>
 </div>
 
