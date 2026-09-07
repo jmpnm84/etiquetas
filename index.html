@@ -855,10 +855,6 @@ for (let row = 0; row < ys.length; row++) {
     const labelY = originY + ys[row];
 
     Object.entries(fields).forEach(([fieldName, field]) => {
-      if (fieldName === "dia" && row === 4 && col === 1) {
-        return;
-      }
-
       const element = document.createElement("div");
       element.className = "box";
       element.dataset.field = fieldName;
