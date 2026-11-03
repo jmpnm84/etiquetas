@@ -82,6 +82,26 @@
     object-fit: contain;
   }
 
+  .lang-select-container {
+    display: flex;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 2px 4px;
+    border-radius: 5px;
+    border: 1px solid #cbd5e1;
+    flex-shrink: 0;
+  }
+
+  .lang-select-container select {
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+  }
+
   .toolbar button {
     border: 0;
     border-radius: 5px;
@@ -92,6 +112,20 @@
     cursor: pointer;
     touch-action: manipulation;
     white-space: nowrap;
+  }
+
+  #helpBtn {
+    background: #e2e8f0;
+    color: #1e293b;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-radius: 50%;
+    border: 1px solid #cbd5e1;
   }
 
   #fillBtn {
@@ -232,89 +266,6 @@
     background: rgba(0, 0, 0, 0.4);
   }
 
-  .type-selection-content {
-    padding: 24px;
-    text-align: center;
-  }
-
-  .type-selection-content h2 {
-    margin: 0 0 8px;
-    font-size: 20px;
-    color: #0f172a;
-  }
-
-  .type-selection-content p {
-    margin: 0 0 20px;
-    font-size: 14px;
-    color: #64748b;
-  }
-
-  .grid-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .grid-card {
-    border: 2px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 16px;
-    background: #f8fafc;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .grid-card:hover {
-    border-color: #1f6feb;
-    background: #f0f7ff;
-    transform: translateY(-2px);
-  }
-
-  .grid-icon {
-    width: 60px;
-    height: 75px;
-    border: 1px solid #94a3b8;
-    border-radius: 4px;
-    background: white;
-    padding: 4px;
-    display: grid;
-    gap: 2px;
-  }
-
-  .grid-icon-27 {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(9, 1fr);
-  }
-
-  .grid-icon-48 {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(12, 1fr);
-  }
-
-  .grid-cell-icon {
-    background: #cbd5e1;
-    border-radius: 1px;
-  }
-
-  .grid-card:hover .grid-cell-icon {
-    background: #93c5fd;
-  }
-
-  .grid-card-title {
-    font-weight: 700;
-    font-size: 15px;
-    color: #1e293b;
-  }
-
-  .grid-card-desc {
-    font-size: 12px;
-    color: #64748b;
-  }
-
   .form {
     padding: 22px;
   }
@@ -371,6 +322,79 @@
     background: #1f6feb;
     color: white;
     font-weight: 600;
+  }
+
+
+  /* Estilos específicos para a janela de Ajuda */
+  .help-content {
+    padding: 24px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .help-content h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #1e293b;
+    margin-bottom: 16px;
+  }
+
+  .help-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .help-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    background: #1f6feb;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-text {
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.5;
+  }
+
+  .warning-box {
+    background: #fffbeb;
+    border: 1px solid #f59e0b;
+    border-left: 4px solid #d97706;
+    padding: 12px 14px;
+    border-radius: 6px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 16px;
+  }
+
+  .warning-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .warning-text {
+    font-size: 13px;
+    color: #b45309;
+    font-weight: 600;
+    line-height: 1.4;
   }
 
 
@@ -431,11 +455,23 @@
   </div>
 
   <div class="toolbar-right">
-    <button id="fillBtn" type="button">Preencher</button>
-    <button id="printBtn" type="button">Imprimir</button>
+    <button id="helpBtn" type="button" title="Ajuda">?</button>
+    
+    <!-- SELETOR DE IDIOMA COM BANDEIRAS -->
+    <div class="lang-select-container">
+      <select id="langSelect" aria-label="Idioma">
+        <option value="pt">🇵🇹 PT</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="fr">🇫🇷 FR</option>
+      </select>
+    </div>
+
+    <button id="fillBtn" type="button" data-i18n="fill">Preencher</button>
+    <button id="printBtn" type="button" data-i18n="print">Imprimir</button>
     
     <!-- VERSÃO DA APLICAÇÃO -->
-    <span class="app-version">v2.0.0</span>
+    <span class="app-version">v1.0.1</span>
   </div>
 </div>
 
@@ -467,51 +503,40 @@
 
 
 <!-- =====================================================
-     SELEÇÃO DO TIPO DE FOLHA (27 OU 48 ETIQUETAS)
+     JANELA DE AJUDA / INSTRUÇÕES
      ===================================================== -->
 
-<dialog id="typeDialog">
-  <div class="type-selection-content">
-    <h2>Selecione o tipo de folha</h2>
-    <p>Escolha o formato da folha de etiquetas a preencher:</p>
-
-    <div class="grid-options">
-      <!-- OPÇÃO 27 ETIQUETAS -->
-      <div class="grid-card" id="select27Btn">
-        <div class="grid-icon grid-icon-27">
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-        </div>
-        <span class="grid-card-title">27 Etiquetas</span>
-        <span class="grid-card-desc">Grelha 3 × 9</span>
+<dialog id="helpDialog">
+  <div class="help-content">
+    <h2 data-i18n="helpTitle">Como utilizar a aplicação</h2>
+    
+    <div class="help-steps">
+      <div class="help-step">
+        <div class="step-num">1</div>
+        <div class="step-text" data-i18n="helpStep1">Escolha o seu idioma preferido no seletor com bandeiras na barra superior.</div>
       </div>
-
-      <!-- OPÇÃO 48 ETIQUETAS -->
-      <div class="grid-card" id="select48Btn">
-        <div class="grid-icon grid-icon-48">
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-          <div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div><div class="grid-cell-icon"></div>
-        </div>
-        <span class="grid-card-title">48 Etiquetas</span>
-        <span class="grid-card-desc">Grelha 4 × 12</span>
+      <div class="help-step">
+        <div class="step-num">2</div>
+        <div class="step-text" data-i18n="helpStep2">Clique no botão "Preencher" para abrir o formulário com a data atual e os campos necessários (dia, mês, ano, colaborador e referência).</div>
       </div>
+      <div class="help-step">
+        <div class="step-num">3</div>
+        <div class="step-text" data-i18n="helpStep3">Insira os dados desejados e clique em "Aplicar" para atualizar automaticamente todas as etiquetas na folha.</div>
+      </div>
+      <div class="help-step">
+        <div class="step-num">4</div>
+        <div class="step-text" data-i18n="helpStep4">Clique em "Imprimir" para enviar o documento diretamente para a sua impressora.</div>
+      </div>
+    </div>
+
+    <!-- AVISO DE IMPRESSÃO -->
+    <div class="warning-box">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-text" data-i18n="helpWarning">Atenção à posição em que coloca a folha de etiquetas na sua impressora (orientação e face correta), pois esta configuração pode variar consoante o modelo de cada impressora.</div>
+    </div>
+
+    <div class="actions">
+      <button type="button" id="closeHelpBtn" class="apply" data-i18n="close">Fechar</button>
     </div>
   </div>
 </dialog>
@@ -526,42 +551,44 @@
 
   <form class="form" method="dialog" id="fillForm">
 
-    <h2>Preencher etiquetas</h2>
+    <h2 data-i18n="formTitle">
+      Preencher etiquetas
+    </h2>
 
     <!-- DIA -->
     <div class="field">
-      <label for="dia">Dia</label>
+      <label for="dia" data-i18n="labelDay">Dia</label>
       <input id="dia" name="dia" type="text" inputmode="numeric" maxlength="2" placeholder="Ex.: 31" required>
     </div>
 
     <!-- MÊS -->
     <div class="field">
-      <label for="mes">Mês</label>
+      <label for="mes" data-i18n="labelMonth">Mês</label>
       <input id="mes" name="mes" type="text" inputmode="numeric" maxlength="2" placeholder="Ex.: 08" required>
     </div>
 
     <!-- ANO -->
     <div class="field">
-      <label for="ano">Ano</label>
+      <label for="ano" data-i18n="labelYear">Ano</label>
       <input id="ano" name="ano" type="text" inputmode="numeric" maxlength="4" placeholder="Ex.: 2026" required>
     </div>
 
     <!-- NÚMERO COLABORADOR -->
     <div class="field">
-      <label for="colaborador">Número do colaborador</label>
+      <label for="colaborador" data-i18n="labelCollab">Número do colaborador</label>
       <input id="colaborador" name="colaborador" type="text" placeholder="Ex.: 06/59" required>
     </div>
 
     <!-- REFERÊNCIA -->
     <div class="field">
-      <label for="referencia">Referência</label>
+      <label for="referencia" data-i18n="labelRef">Referência</label>
       <input id="referencia" name="referencia" type="text" placeholder="Ex.: 501" required>
     </div>
 
     <!-- BOTÕES DO FORMULÁRIO -->
     <div class="actions">
-      <button type="button" id="cancelBtn">Cancelar</button>
-      <button type="submit" class="apply">Aplicar</button>
+      <button type="button" id="cancelBtn" data-i18n="cancel">Cancelar</button>
+      <button type="submit" class="apply" data-i18n="apply">Aplicar</button>
     </div>
 
   </form>
@@ -613,6 +640,146 @@ document.getElementById("zoomReset").addEventListener("click", () => {
 
 
 /* =========================================================
+   TRADUÇÕES (IDIOMAS)
+   ========================================================= */
+const translations = {
+  pt: {
+    fill: "Preencher",
+    print: "Imprimir",
+    formTitle: "Preencher etiquetas",
+    labelDay: "Dia",
+    labelMonth: "Mês",
+    labelYear: "Ano",
+    labelCollab: "Número do colaborador",
+    labelRef: "Referência",
+    cancel: "Cancelar",
+    apply: "Aplicar",
+    close: "Fechar",
+    placeholderDay: "Ex.: 31",
+    placeholderMonth: "Ex.: 08",
+    placeholderYear: "Ex.: 2026",
+    placeholderCollab: "Ex.: 06/59",
+    placeholderRef: "Ex.: 501",
+    helpTitle: "Como utilizar a aplicação",
+    helpStep1: "Escolha o seu idioma preferido no seletor com bandeiras na barra superior.",
+    helpStep2: "Clique no botão 'Preencher' para abrir o formulário com a data atual e os campos necessários (dia, mês, ano, colaborador e referência).",
+    helpStep3: "Insira os dados desejados e clique em 'Aplicar' para atualizar automaticamente todas as etiquetas na folha.",
+    helpStep4: "Clique em 'Imprimir' para enviar o documento diretamente para a sua impressora.",
+    helpWarning: "Atenção à posição em que coloca a folha de etiquetas na sua impressora (orientação e face correta), pois esta configuração pode variar consoante o modelo de cada impressora."
+  },
+  es: {
+    fill: "Rellenar",
+    print: "Imprimir",
+    formTitle: "Rellenar etiquetas",
+    labelDay: "Día",
+    labelMonth: "Mes",
+    labelYear: "Año",
+    labelCollab: "Número de colaborador",
+    labelRef: "Referencia",
+    cancel: "Cancelar",
+    apply: "Aplicar",
+    close: "Cerrar",
+    placeholderDay: "Ej.: 31",
+    placeholderMonth: "Ej.: 08",
+    placeholderYear: "Ej.: 2026",
+    placeholderCollab: "Ej.: 06/59",
+    placeholderRef: "Ej.: 501",
+    helpTitle: "Cómo utilizar la aplicación",
+    helpStep1: "Elija su idioma preferido en el selector con banderas en la barra superior.",
+    helpStep2: "Haga clic en el botón 'Rellenar' para abrir el formulario con la fecha actual y los campos necesarios (día, mes, año, colaborador y referencia).",
+    helpStep3: "Introduzca los datos deseados y haga clic en 'Aplicar' para actualizar automáticamente todas las etiquetas de la hoja.",
+    helpStep4: "Haga clic en 'Imprimir' para enviar el documento directamente a su impresora.",
+    helpWarning: "Atención a la posición en la que coloca la hoja de etiquetas en su impresora (orientación y cara correcta), ya que esta configuración puede variar según el modelo de cada impresora."
+  },
+  en: {
+    fill: "Fill",
+    print: "Print",
+    formTitle: "Fill labels",
+    labelDay: "Day",
+    labelMonth: "Month",
+    labelYear: "Year",
+    labelCollab: "Collaborator number",
+    labelRef: "Reference",
+    cancel: "Cancel",
+    apply: "Apply",
+    close: "Close",
+    placeholderDay: "Ex.: 31",
+    placeholderMonth: "Ex.: 08",
+    placeholderYear: "Ex.: 2026",
+    placeholderCollab: "Ex.: 06/59",
+    placeholderRef: "Ex.: 501",
+    helpTitle: "How to use the app",
+    helpStep1: "Choose your preferred language from the flag selector in the top bar.",
+    helpStep2: "Click the 'Fill' button to open the form with the current date and required fields (day, month, year, collaborator, and reference).",
+    helpStep3: "Enter the desired data and click 'Apply' to automatically update all labels on the sheet.",
+    helpStep4: "Click 'Print' to send the document directly to your printer.",
+    helpWarning: "Pay attention to the position in which you place the label sheet in your printer (orientation and correct side), as this setup may vary depending on each printer model."
+  },
+  fr: {
+    fill: "Remplir",
+    print: "Imprimer",
+    formTitle: "Remplir les étiquettes",
+    labelDay: "Jour",
+    labelMonth: "Mois",
+    labelYear: "Année",
+    labelCollab: "Numéro de collaborateur",
+    labelRef: "Référence",
+    cancel: "Annuler",
+    apply: "Appliquer",
+    close: "Fermer",
+    placeholderDay: "Ex. : 31",
+    placeholderMonth: "Ex. : 08",
+    placeholderYear: "Ex. : 2026",
+    placeholderCollab: "Ex. : 06/59",
+    placeholderRef: "Ex. : 501",
+    helpTitle: "Comment utiliser l'application",
+    helpStep1: "Choisissez votre langue préférée dans le sélecteur avec drapeaux dans la barre supérieure.",
+    helpStep2: "Cliquez sur le bouton 'Remplir' pour ouvrir le formulaire avec la date actuelle et les champs requis (jour, mois, année, collaborateur et référence).",
+    helpStep3: "Entrez les données souhaitées et cliquez sur 'Appliquer' pour mettre à jour automatiquement toutes les étiquettes sur la feuille.",
+    helpStep4: "Cliquez sur 'Imprimer' pour envoyer le document directement à votre imprimante.",
+    helpWarning: "Faites attention à la position dans laquelle vous placez la feuille d'étiquettes dans votre imprimante (orientation et bon côté), car cette configuration peut varier selon le modèle de chaque imprimante."
+  }
+};
+
+function setLanguage(lang) {
+  const t = translations[lang] || translations.pt;
+  
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (t[key]) {
+      el.textContent = t[key];
+    }
+  });
+
+  document.getElementById("dia").placeholder = t.placeholderDay;
+  document.getElementById("mes").placeholder = t.placeholderMonth;
+  document.getElementById("ano").placeholder = t.placeholderYear;
+  document.getElementById("colaborador").placeholder = t.placeholderCollab;
+  document.getElementById("referencia").placeholder = t.placeholderRef;
+
+  document.documentElement.lang = lang === 'pt' ? 'pt-PT' : lang;
+}
+
+document.getElementById("langSelect").addEventListener("change", (e) => {
+  setLanguage(e.target.value);
+});
+
+
+/* =========================================================
+   CONTROLO DA JANELA DE AJUDA
+   ========================================================= */
+const helpDialog = document.getElementById("helpDialog");
+
+document.getElementById("helpBtn").addEventListener("click", () => {
+  helpDialog.showModal();
+});
+
+document.getElementById("closeHelpBtn").addEventListener("click", () => {
+  helpDialog.close();
+});
+
+
+/* =========================================================
    REGISTO DO SERVICE WORKER (PWA)
    ========================================================= */
 if ("serviceWorker" in navigator) {
@@ -625,40 +792,41 @@ if ("serviceWorker" in navigator) {
 
 
 /* =========================================================
-   CONFIGURAÇÕES DAS GRELHAS (27 E 48 ETIQUETAS)
+   CONFIGURAÇÃO DA GRELHA
    ========================================================= */
 
-// Configuração para 48 Etiquetas (4 x 12)
-const config48 = {
-  originX: 9.31,
-  originY: 10.90,
-  xs: [0.0, 52.8585, 105.7170, 158.6739],
-  ys: [0.0, 24.791, 49.219, 74.009, 98.213, 123.004, 147.432, 172.223, 196.427, 221.217, 245.645, 270.436],
-  fields: {
-    dia: { x: 0.0, y: 0.0, width: 4.81, height: 3.79 },
-    mes: { x: 7.1856, y: 0.0, width: 4.81, height: 3.79 },
-    ano: { x: 13.4853, y: 0.0, width: 8.6621, height: 3.79 },
-    colaborador: { x: 28.6926, y: 0.0, width: 8.6629, height: 3.79 },
-    referencia: { x: 2.4608, y: 5.8075, width: 8.6621, height: 3.79 }
-  }
-};
+const originX = 9.31;
+const originY = 10.90;
 
-// Configuração para 27 Etiquetas (3 x 9)
-const config27 = {
-  originX: 7.0,
-  originY: 13.5,
-  xs: [0.0, 67.0, 134.0],
-  ys: [0.0, 30.0, 60.0, 90.0, 120.0, 150.0, 180.0, 210.0, 240.0],
-  fields: {
-    dia: { x: 2.0, y: 2.0, width: 6.0, height: 5.0 },
-    mes: { x: 10.0, y: 2.0, width: 6.0, height: 5.0 },
-    ano: { x: 18.0, y: 2.0, width: 10.0, height: 5.0 },
-    colaborador: { x: 38.0, y: 2.0, width: 12.0, height: 5.0 },
-    referencia: { x: 5.0, y: 10.0, width: 12.0, height: 5.0 }
-  }
-};
+const xs = [
+  0.0,
+  52.8585,
+  105.7170,
+  158.6739
+];
 
-let activeConfig = config48; // Padrão inicial
+const ys = [
+  0.0,
+  24.791,
+  49.219,
+  74.009,
+  98.213,
+  123.004,
+  147.432,
+  172.223,
+  196.427,
+  221.217,
+  245.645,
+  270.436
+];
+
+const fields = {
+  dia: { x: 0.0, y: 0.0, width: 4.81, height: 3.79 },
+  mes: { x: 7.1856, y: 0.0, width: 4.81, height: 3.79 },
+  ano: { x: 13.4853, y: 0.0, width: 8.6621, height: 3.79 },
+  colaborador: { x: 28.6926, y: 0.0, width: 8.6629, height: 3.79 },
+  referencia: { x: 2.4608, y: 5.8075, width: 8.6621, height: 3.79 }
+};
 
 function getCurrentDate() {
   const today = new Date();
@@ -681,72 +849,45 @@ const values = {
 
 const page = document.querySelector(".page");
 
-function renderGrid(config) {
-  page.innerHTML = "";
-  for (let row = 0; row < config.ys.length; row++) {
-    for (let col = 0; col < config.xs.length; col++) {
-      const labelX = config.originX + config.xs[col];
-      const labelY = config.originY + config.ys[row];
+for (let row = 0; row < ys.length; row++) {
+  for (let col = 0; col < xs.length; col++) {
+    const labelX = originX + xs[col];
+    const labelY = originY + ys[row];
 
-      Object.entries(config.fields).forEach(([fieldName, field]) => {
-        const element = document.createElement("div");
-        element.className = "box";
-        element.dataset.field = fieldName;
+    Object.entries(fields).forEach(([fieldName, field]) => {
+      const element = document.createElement("div");
+      element.className = "box";
+      element.dataset.field = fieldName;
 
-        element.style.left = (labelX + field.x) + "mm";
-        element.style.top = (labelY + field.y) + "mm";
-        element.style.width = field.width + "mm";
-        element.style.height = field.height + "mm";
+      element.style.left = (labelX + field.x) + "mm";
+      element.style.top = (labelY + field.y) + "mm";
+      element.style.width = field.width + "mm";
+      element.style.height = field.height + "mm";
 
-        element.textContent = values[fieldName];
-        page.appendChild(element);
-      });
-    }
+      element.textContent = values[fieldName];
+      page.appendChild(element);
+    });
   }
 }
 
-// Renderização inicial
-renderGrid(activeConfig);
-
-/* =========================================================
-   GESTÃO DOS DIÁLOGOS (TIPO DE ETIQUETAS E FORMULÁRIO)
-   ========================================================= */
-
-const typeDialog = document.getElementById("typeDialog");
-const fillDialog = document.getElementById("fillDialog");
-const fillForm = document.getElementById("fillForm");
+const dialog = document.getElementById("fillDialog");
+const form = document.getElementById("fillForm");
 
 document.getElementById("fillBtn").addEventListener("click", function () {
-  typeDialog.showModal();
-});
-
-document.getElementById("select27Btn").addEventListener("click", function () {
-  activeConfig = config27;
-  typeDialog.close();
-  openFillDialog();
-});
-
-document.getElementById("select48Btn").addEventListener("click", function () {
-  activeConfig = config48;
-  typeDialog.close();
-  openFillDialog();
-});
-
-function openFillDialog() {
   const date = getCurrentDate();
   document.getElementById("dia").value = date.dia;
   document.getElementById("mes").value = date.mes;
   document.getElementById("ano").value = date.ano;
 
-  fillDialog.showModal();
+  dialog.showModal();
   document.getElementById("colaborador").focus();
-}
-
-document.getElementById("cancelBtn").addEventListener("click", function () {
-  fillDialog.close();
 });
 
-fillForm.addEventListener("submit", function (event) {
+document.getElementById("cancelBtn").addEventListener("click", function () {
+  dialog.close();
+});
+
+form.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const newValues = {
@@ -758,9 +899,15 @@ fillForm.addEventListener("submit", function (event) {
   };
 
   Object.assign(values, newValues);
-  renderGrid(activeConfig);
 
-  fillDialog.close();
+  document.querySelectorAll(".box[data-field]").forEach(function (box) {
+    const field = box.dataset.field;
+    if (Object.prototype.hasOwnProperty.call(values, field)) {
+      box.textContent = values[field];
+    }
+  });
+
+  dialog.close();
 });
 
 document.getElementById("printBtn").addEventListener("click", function () {
